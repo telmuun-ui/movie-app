@@ -3,6 +3,7 @@ import { MovieCategory } from "./MovieCategories";
 import { Popular } from "./Popular";
 import { Top } from "./Top";
 import { CarouselPlugin } from "./Carousel";
+type MovieRating = "G" | "PG" | "PG-13" | "R" | "NC-17" | "Unrated";
 export type Movie = {
   id: number;
   title: string;
@@ -14,6 +15,7 @@ export type Movie = {
   backdrop_path: string;
   original_title: string;
   button: string;
+  rating: MovieRating;
 };
 export const Categories = async (category: string) => {
   const response = await fetch(
@@ -24,7 +26,7 @@ export const Categories = async (category: string) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_DB_API_KEY}`,
       },
-    }
+    },
   );
   const data = await response.json();
   return data.results;
@@ -39,7 +41,7 @@ const Car = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_DB_API_KEY}`,
       },
-    }
+    },
   );
   const data = await response.json();
 
@@ -54,7 +56,7 @@ export const Movies = async () => {
   return (
     <div>
       <CarouselPlugin carousalData={carousalData} />
-      <div className="px-2">
+      <div className="px-30">
         <MovieCategory movies={up} title="Upcoming" category="upcoming" />
         <MovieCategory movies={popular} title="Popular" category="popular" />
         <MovieCategory

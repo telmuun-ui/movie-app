@@ -16,7 +16,7 @@ export const Footer = () => {
 
           <div className="flex items-start gap-2 text-sm opacity-90">
             <img
-              src="./mail.svg"
+              src="/mail.svg"
               alt=""
               className="h-4 w-4 invert brightness-0"
             />
@@ -28,7 +28,7 @@ export const Footer = () => {
 
           <div className="flex items-start gap-2 text-sm opacity-90">
             <img
-              src="./phone.svg"
+              src="/phone.svg"
               alt=""
               className="h-4 w-4 invert brightness-0"
             />
