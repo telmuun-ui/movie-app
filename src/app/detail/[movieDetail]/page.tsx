@@ -1,7 +1,6 @@
-import { notFound } from "next/navigation";
-import { Movie } from "@/app/page";
-import Image from "next/image";
-import { MovieDetailClient } from "@/app/components/Detail.client";
+import { getMovieCredits } from "@/lib/credits";
+import { getSimilarMovies } from "@/lib/similars";
+import { MovieDetailClient } from "./components/Detail.client";
 export const getMovieDetail = async (movieId: string) => {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
@@ -26,10 +25,20 @@ const Page = async ({
 }) => {
   const { movieDetail } = await params;
   const movie = await getMovieDetail(movieDetail);
+  const similar = await getSimilarMovies(movieDetail);
 
+  const credits = await getMovieCredits(movieDetail);
+  if (!movie) {
+    return <p>Movie not found</p>;
+  }
   return (
-  
-  <div>  <MovieDetailClient movie={movie} />;</div>
+    <div>
+      <MovieDetailClient
+        movie={movie}
+        credits={credits}
+        similar={similar?.results}
+      />
+    </div>
   );
 };
 

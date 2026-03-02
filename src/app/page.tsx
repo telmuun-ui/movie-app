@@ -10,7 +10,7 @@ export type Movie = {
 export default function Home() {
   return (
     <div className="flex flex-col ">
-      <main className="flex">
+ <main className="max-w-[1440px] mx-auto ">
         <Movies />
       </main>
 
