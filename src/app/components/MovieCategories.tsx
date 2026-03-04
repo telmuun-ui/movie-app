@@ -22,7 +22,7 @@ export const MovieCategory = ({ movies, title, category }: Props) => {
       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {movies.map((movie) => (
           <div
-            key={movie.id}
+            key={movie?.id}
             className="bg-white rounded-xl shadow-md overflow-hidden hover:scale-105 transform transition duration-300"
           >
             <MovieCard movie={movie} />

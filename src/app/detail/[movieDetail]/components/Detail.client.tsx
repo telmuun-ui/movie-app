@@ -56,7 +56,7 @@ export const MovieDetailClient = ({ movie, credits, similar }: any) => {
             <div className="flex-shrink-0 h-[428px]">
               <img
                 src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
-                alt={movie.title}
+                alt={movie?.title}
                 className="h-full w-auto rounded-xl object-cover"
               />
             </div>
@@ -107,11 +107,12 @@ export const MovieDetailClient = ({ movie, credits, similar }: any) => {
                   />
                 )}
 
-                <div className="mt-2 bg text-sm font-medium">{item?.title}</div>
+                <div className="mt-2 bg text-xs font-medium">
+                  {item?.title}
+                </div>
 
-                <div className="text-xs flex text-gray-500">
-                  <img src="/star.png" alt="star" className="h-4 w-4 mr-1" />{" "}
-                  {item.vote_average?.toFixed(1)}
+                <div className="text-xs flex text-black font-bold">
+                  <img src="/star.png" alt="star" className="h-4 w-4 mr-1" /> {item?.vote_average?.toFixed(1)} <span className="font-normal">/10</span>
                 </div>
               </Link>
             ))}

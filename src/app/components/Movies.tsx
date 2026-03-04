@@ -17,7 +17,7 @@ export type Movie = {
   button: string;
   rating: MovieRating;
 };
-export const Categories = async (category: string) => {
+export const Categories = async (category: string, page?: number) => {
   const response = await fetch(
     `https://api.themoviedb.org/3/movie/${category}`,
     {
@@ -56,7 +56,7 @@ export const Movies = async () => {
   return (
     <div>
       <CarouselPlugin carousalData={carousalData} />
-      <div className="px-4  ">
+      <div className="px-10  ">
         <MovieCategory movies={up} title="Upcoming" category="upcoming" />
         <MovieCategory movies={popular} title="Popular" category="popular" />
         <MovieCategory
