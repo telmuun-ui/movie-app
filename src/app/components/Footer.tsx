@@ -1,5 +1,5 @@
 import React from "react";
-
+import Link from "next/link";
 export const Footer = () => {
   return (
     <footer className="bg-[#4338CA] text-white px-6 md:px-12 py-10 md:py-12">
@@ -8,10 +8,14 @@ export const Footer = () => {
         
         {/* Logo & Copyright */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2 font-semibold text-lg">
-             <img src="/lg.png" alt="Movie Z Logo" className="h-5 w-auto" />
-          </div>
-          <p className="text-sm opacity-80">© 2024 Movie Z. All Rights Reserved.</p>
+           <Link href="/" className="h-[20px] w-[120px] justify-center rounded-xl bg-white flex items-center gap-1 font-bold italic shrink-0 group">
+  <img src="/t.png" className="h-full w-auto object-contain transition-transform group-hover:scale-110" />
+  
+  <p className="whitespace-nowrap hidden sm:block leading-none bg-[linear-gradient(to_right,#1d4ed8,#7c3aed,#4338CA,#1d4ed8)] bg-[length:200%_auto] bg-clip-text text-transparent animate-[text-slide_5s_ease-in-out_infinite]">
+    TekuMovie
+  </p>
+</Link>
+          <p className="text-sm opacity-80">© 2026 TekuMovie. All Rights Reserved.</p>
         </div>
 
         {/* Contact Info */}
@@ -24,7 +28,7 @@ export const Footer = () => {
             </div>
             <div>
               <p className="font-medium">Email:</p>
-              <p>support@moviez.com</p>
+              <p>support@tekumovie.com</p>
             </div>
           </div>
 
