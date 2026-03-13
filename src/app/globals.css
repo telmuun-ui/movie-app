@@ -123,3 +123,11 @@
     @apply bg-background text-foreground;
   }
 }
+.animate-logo-text {
+  background-image: linear-gradient(to right, #1d4ed8, #7c3aed, #4338CA, #1d4ed8);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-slide 5s ease-in-out infinite alternate;
+}

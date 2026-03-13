@@ -62,21 +62,11 @@ export const Header = () => {
 
   return (
     <header className="w-full h-[59px] bg-white px-4 md:px-12 flex items-center justify-between relative border-b z-[100]">
-      <Link href="/" className="h-[20px] flex items-center gap-1 font-bold italic shrink-0 group">
+ <Link href="/" className="h-[20px] flex items-center gap-1 font-bold italic shrink-0 group">
   <img src="/t.png" className="h-full w-auto object-contain transition-transform group-hover:scale-110" />
   
-  <p className="whitespace-nowrap hidden sm:block leading-none 
-                bg-[linear-gradient(to_right,#1d4ed8,#7c3aed,#4338CA,#1d4ed8)] 
-                bg-[length:200%_auto] bg-clip-text text-transparent 
-                animate-[text-slide_5s_ease-in-out_infinite]">
+  <p className="whitespace-nowrap hidden sm:block leading-none bg-[linear-gradient(to_right,#1d4ed8,#7c3aed,#4338CA,#1d4ed8)] bg-[length:200%_auto] bg-clip-text text-transparent animate-[text-slide_5s_ease-in-out_infinite]">
     TekuMovie
-    
-    <style jsx global>{`
-      @keyframes text-slide {
-        0% { background-position: 0% 50%; }
-        100% { background-position: 100% 50%; }
-      }
-    `}</style>
   </p>
 </Link>
 
