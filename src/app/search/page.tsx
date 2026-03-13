@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
+import Link from "next/link"; 
 import BadgeDemo from "../components/Genres";
 import { DynamicPagination } from "../components/DynamicPagination";
 
@@ -13,7 +14,6 @@ const fetcher = (url: string) =>
       "Content-Type": "application/json",
     },
   }).then((res) => res.json());
-
 
 function SearchContent() {
   const searchParams = useSearchParams();
@@ -42,9 +42,10 @@ function SearchContent() {
           
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {data?.results?.map((item: any) => (
-              <div
+              <Link
                 key={item?.id}
-                className="bg-[#F4F4F5] pb-3 rounded-lg overflow-hidden shadow-md cursor-pointer hover:scale-105 transition-transform duration-200"
+                href={`/detail/${item?.id}`} 
+                className="bg-[#F4F4F5] pb-3 rounded-lg overflow-hidden shadow-md cursor-pointer hover:scale-105 transition-transform duration-200 block"
               >
                 <img
                   src={
@@ -65,7 +66,7 @@ function SearchContent() {
                     <span className="font-normal text-gray-500 ml-1">/10</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -88,10 +89,8 @@ function SearchContent() {
   );
 }
 
-
 export default function SearchPage() {
   return (
-  
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
       <SearchContent />
     </Suspense>
