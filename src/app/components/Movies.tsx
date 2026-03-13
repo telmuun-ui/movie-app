@@ -56,7 +56,7 @@ export const Movies = async () => {
   return (
     <div className="">
       <CarouselPlugin carousalData={carousalData} />
-      <div className="px-10  ">
+      <div className="px-4  ">
         <MovieCategory movies={up} title="Upcoming" category="upcoming" />
         <MovieCategory movies={popular} title="Popular" category="popular" />
         <MovieCategory
