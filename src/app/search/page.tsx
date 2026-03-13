@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import BadgeDemo from "../components/Genres";
@@ -13,7 +14,8 @@ const fetcher = (url: string) =>
     },
   }).then((res) => res.json());
 
-export default function SearchPage() {
+
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const page = Number(searchParams.get("page")) || 1;
@@ -25,7 +27,8 @@ export default function SearchPage() {
     fetcher,
   );
 
- 
+  if (isLoading) return <div className="py-20 text-center font-bold">Loading results...</div>;
+  if (error) return <div className="py-20 text-center text-red-500">Something went wrong.</div>;
 
   const totalPages = Math.min(data?.total_pages ?? 1, 500);
 
@@ -34,7 +37,7 @@ export default function SearchPage() {
       <div className="flex-1 min-w-0">
         <div className="py-12">
           <h1 className="text-2xl font-bold mb-8">
-            Search results for "{query}"
+            {query ? `Search results for "${query}"` : "Search for movies"}
           </h1>
           
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
@@ -68,9 +71,7 @@ export default function SearchPage() {
 
           {data?.results?.length > 0 && (
             <div className="mt-12 flex justify-center">
-              <DynamicPagination 
-                totalPages={10} 
-              />
+              <DynamicPagination totalPages={totalPages} />
             </div>
           )}
         </div>
@@ -84,5 +85,15 @@ export default function SearchPage() {
         <BadgeDemo />
       </div>
     </div>
+  );
+}
+
+
+export default function SearchPage() {
+  return (
+  
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <SearchContent />
+    </Suspense>
   );
 }
