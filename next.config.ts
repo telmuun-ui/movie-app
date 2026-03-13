@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
   env: {
     TDBM_BASE_URL: process.env.TDBM_BASE_URL,
     TMDB_IMAGE_SERVICE_URL: process.env.TMDB_IMAGE_SERVICE_URL,
+    NEXT_PUBLIC_MOVIE_DB_API_KEY: process.env.NEXT_PUBLIC_MOVIE_DB_API_KEY
   },
 };
 
