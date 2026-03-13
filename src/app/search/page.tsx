@@ -2,8 +2,9 @@
 
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
-import Link from "next/link";
 import BadgeDemo from "../components/Genres";
+import { DynamicPagination } from "../components/DynamicPagination";
+
 const fetcher = (url: string) =>
   fetch(url, {
     headers: {
@@ -19,26 +20,28 @@ export default function SearchPage() {
 
   const { data, isLoading, error } = useSWR(
     query
-      ? `https://api.themoviedb.org/3/search/movie?query=${
-          query
-        }&language=en-US&page=${page}`
+      ? `https://api.themoviedb.org/3/search/movie?query=${query}&language=en-US&page=${page}`
       : null,
     fetcher,
   );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error</div>;
+ 
+
+  const totalPages = Math.min(data?.total_pages ?? 1, 500);
 
   return (
-    <div className="flex px-12 max-w-[1440px] mx-auto justify-center gap-10">
-      <div>
-        <div className="max-w-[1440px]  py-16">
-          <h1 className="text-2xl font-bold mb-8">Search results</h1>
-          <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+    <div className="flex flex-col-reverse md:flex-row px-4 md:px-12 max-w-[1440px] mx-auto justify-center gap-6 md:gap-10">
+      <div className="flex-1 min-w-0">
+        <div className="py-12">
+          <h1 className="text-2xl font-bold mb-8">
+            Search results for "{query}"
+          </h1>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {data?.results?.map((item: any) => (
               <div
                 key={item?.id}
-                className="bg-[#F4F4F5]  pb-3 rounded-lg overflow-hidden shadow-md cursor-pointer hover:scale-105  transition-transform duration-200"
+                className="bg-[#F4F4F5] pb-3 rounded-lg overflow-hidden shadow-md cursor-pointer hover:scale-105 transition-transform duration-200"
               >
                 <img
                   src={
@@ -47,23 +50,38 @@ export default function SearchPage() {
                       : "/no-image.png"
                   }
                   alt={item?.title}
-                  className="rounded-xl w-full aspect-[2/3] object-cover group-hover:scale-105 transition"
+                  className="rounded-xl w-full aspect-[2/3] object-cover"
                 />
-                <div className="text-sm mt-3 font-medium line-clamp-1">
-                  {item?.title}
-                </div>
-                <div className="text-xs font-bold text-black flex items-center mt-1">
-                  <img src="/star.png" alt="star" className="h-4 w-4 mr-1" />{" "}
-                  {item?.vote_average?.toFixed(1)}{" "}
-                  <span className="font-normal">/10</span>
+                <div className="px-2">
+                  <div className="text-sm mt-3 font-medium line-clamp-1">
+                    {item?.title}
+                  </div>
+                  <div className="text-xs font-bold text-black flex items-center mt-1">
+                    <img src="/star.png" alt="star" className="h-4 w-4 mr-1" />
+                    {item?.vote_average?.toFixed(1)}
+                    <span className="font-normal text-gray-500 ml-1">/10</span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {data?.results?.length > 0 && (
+            <div className="mt-12 flex justify-center">
+              <DynamicPagination 
+                totalPages={10} 
+              />
+            </div>
+          )}
         </div>
       </div>
-      <div className="flex-shrink-2 mt-33">
-        <BadgeDemo></BadgeDemo>
+
+      <div className="flex-shrink-0 flex flex-col gap-6 mt-10 md:mt-26 w-full md:w-[280px]">
+        <div className="flex flex-col">
+          <div className="text-xl font-semibold">Search by genre</div>
+          <p className="text-base opacity-70">See lists of movies by genre</p>
+        </div>
+        <BadgeDemo />
       </div>
     </div>
   );

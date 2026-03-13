@@ -1,5 +1,6 @@
 import { MovieCard } from "@/app/components/MovieCard";
 import BadgeDemo from "@/app/components/Genres";
+import { DynamicPagination } from "../components/DynamicPagination";// 1. Pagination импортлох
 
 export type Movie = {
   id: number;
@@ -54,7 +55,7 @@ export default async function GenreResultPage({
 }: {
   searchParams: Promise<{ page?: string; genreIds: string }>;
 }) {
-  const { page = 1, genreIds } = await searchParams;
+  const { page = "1", genreIds } = await searchParams;
 
   const [movieData, genres] = await Promise.all([
     fetchMoviesByGenre(genreIds, String(page)),
@@ -64,14 +65,16 @@ export default async function GenreResultPage({
   const movies = movieData?.results ?? [];
   const totalResults = movieData?.total_results ?? 0;
 
+  const totalPages = Math.min(movieData?.total_pages ?? 1, 500);
+
   const currentGenre = genres.find(
     (g: any) => String(g.id) === String(genreIds),
   );
 
   return (
-    <div className="flex flex-col lg:flex-row gap-10">
+    <div className="flex flex-col-reverse md:flex-row px-4 md:px-12 max-w-[1440px] mx-auto justify-center gap-6 md:gap-10">
  
-      <div className="w-full lg:w-[70%] p-8">
+      <div className="w-full  ">
    
         <h1 className="text-3xl font-bold text-black mb-2">
           {currentGenre ? `${currentGenre.name} Movies` : "Genre Movies"}
@@ -90,14 +93,24 @@ export default async function GenreResultPage({
             <p className="text-black">No movies found</p>
           )}
         </div>
+
+        {movies.length > 0 && (
+          <div className="mt-12 mb-10 flex justify-center">
+            <DynamicPagination 
+              totalPages={10} 
+              genreId={genreIds} 
+            />
+          </div>
+        )}
       </div>
 
-   
-      <div className="w-full lg:w-[30%] p-8">
-        <h2 className="text-xl font-semibold mb-4 text-white">Search filter</h2>
-
-        <BadgeDemo />
-      </div>
+     <div className="flex-shrink-2 flex flex-col gap-6 mt-10 md:mt-24 w-full md:w-auto">
+             <div className="flex flex-col ">
+               <div className="text-xl font-semibold">Search by genre</div>
+               <p className="text-base">See lists of movies by genre</p>
+             </div>
+             <BadgeDemo></BadgeDemo>
+           </div>
     </div>
   );
 }

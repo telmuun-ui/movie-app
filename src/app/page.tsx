@@ -10,13 +10,13 @@ export type Movie = {
 export default function Home() {
   return (
     <div className="flex flex-col ">
- <main className="max-w-[1440px] mx-auto ">
-        <Movies />
-      </main>
+   
+  
+   
+<main className="w-full max-w-[1440px] mx-auto px-0 md:px-10 overflow-x-hidden">
+  <Movies />
+</main>
 
-      {/* <div className="flex flex-col mt-[51px]">
-        <Footer />
-      </div> */}
     </div>
   );
 }

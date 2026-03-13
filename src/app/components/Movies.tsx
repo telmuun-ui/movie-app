@@ -54,7 +54,7 @@ export const Movies = async () => {
   const topranked: Movie[] = await Categories(`top_rated`);
   const carousalData: Movie[] = await Car();
   return (
-    <div>
+    <div className="">
       <CarouselPlugin carousalData={carousalData} />
       <div className="px-10  ">
         <MovieCategory movies={up} title="Upcoming" category="upcoming" />

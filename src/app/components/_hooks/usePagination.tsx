@@ -1,49 +1,39 @@
-"use client";
-
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-
-export const usePagination = (totalPages: number) => {
-  const { push } = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const currentPage = Number(searchParams.get("page") ?? 1);
-  const maxVisibleButtons = 3;
-
-  const updatePage = (pageNumber: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", pageNumber.toString());
-    push(`${pathname}?${params.toString()}`);
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 1) updatePage(currentPage - 1);
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) updatePage(currentPage + 1);
-  };
-
-  const half = Math.floor(maxVisibleButtons / 2);
-
-  let startPage = Math.max(1, currentPage - half);
-  let endPage = startPage + maxVisibleButtons - 1;
-
-  if (endPage > totalPages) {
-    endPage = totalPages;
-    startPage = Math.max(1, endPage - maxVisibleButtons + 1);
-  }
-
-  const pages = Array.from(
-    { length: endPage - startPage + 1 },
-    (_, i) => startPage + i
-  );
-
-  return {
-    currentPage,
-    pages,
-    handlePrevious,
-    handleNext,
-    handlePageChange: (page: number) => () => updatePage(page),
-  };
-};
+"use client"
+ 
+import { usePathname, useSearchParams, useRouter } from "next/navigation"
+ 
+export const usePagination = (totalPages: number = 10, genreId?: string | number) => {
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+ 
+    const maxVisibleButtons = 3;
+    const currentPage = Number(searchParams.get("page") ?? 1);
+ 
+    const handlePageChange = (pageNumber: number) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("page", pageNumber.toString());
+        router.push(`${pathname}?${params.toString()}`);
+    };
+ 
+    const handlePrev = () => {
+        if (currentPage > 1) handlePageChange(currentPage - 1);
+    };
+ 
+    const handleNext = () => {
+        if (currentPage < totalPages) handlePageChange(currentPage + 1);
+    };
+ 
+    const getDisplayPages = () => {
+        let start = Math.max(currentPage - Math.floor(maxVisibleButtons / 2), 1);
+        let end = start + maxVisibleButtons - 1;
+ 
+        if (end > totalPages) {
+            end = totalPages;
+            start = Math.max(1, end - maxVisibleButtons + 1);
+        }
+        return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+    };
+ 
+    return { handlePrev, handleNext, handlePageChange, currentPage, displayPages: getDisplayPages(), totalPages };
+}
